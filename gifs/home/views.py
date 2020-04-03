@@ -1,20 +1,21 @@
 from django.shortcuts import render
 from pytrends.request import TrendReq
-import pandas as pd
-
+import json
 
 # Create your views here.
 def home(request):
+
+    # Generating currently trending keywords
     pytrends = TrendReq(hl='en-US', tz=360)
-    kw_list = ["Blockchain"] 
-    pytrends.build_payload(kw_list, cat=0, timeframe='today 5-y', geo='', gprop='')
-    trendData = pytrends.interest_over_time()
-    pdData = pd.DataFrame(trendData)
+    response = pytrends.trending_searches(pn='united_states')
+    data = json.loads(response.to_json())["0"]
+    kw_list = [value for key, value in data.items()]
+    data = pytrends.get_historical_interest(kw_list, year_start=2018, month_start=1, day_start=1, hour_start=0, year_end=2018, month_end=2, day_end=1, hour_end=0, cat=0, geo='', gprop='', sleep=0)
 
     context = {
         "props": {
             "keyword": "Blockchain",
-            "trendData": pdData.to_json(),
+            "trendData": data,
         },
     }
 

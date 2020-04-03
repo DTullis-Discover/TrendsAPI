@@ -6,9 +6,7 @@ module.exports = {
   context: __dirname,
 
   entry: {
-    'home': './gifs/static/js//pages/home.js',
-    'gif-list': './gifs/static/js//gifs/gif-list.js',
-    'gif-detail': './gifs/static/js/gifs/gif-detail.js',
+    'home': './gifs/static/js/pages/home.js',
   },
 
   output: {

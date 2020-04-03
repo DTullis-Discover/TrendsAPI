@@ -17,3 +17,6 @@ djangorestframework==3.11.0  # https://github.com/encode/django-rest-framework
 
 # Django Webpack Loader
 django-webpack-loader==0.6.0  # https://github.com/owais/django-webpack-loader 
+
+# Pytrends API
+pytrends

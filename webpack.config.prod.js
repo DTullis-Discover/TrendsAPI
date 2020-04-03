@@ -6,9 +6,7 @@ module.exports = {
   context: __dirname,
 
   entry: {
-    'index': './gifs/static/js/index.js',
-    'about': './gifs/static/js/about.js',
-    'project': './gifs/static/js/project.js',
+    'home': './gifs/static/js/pages/home.js',
   },
 
   output: {

@@ -5,7 +5,7 @@ function Home() {
 
   return (
     <>
-     <h1>Yo</h1>
+     <h1>Bo</h1>
     </>
   );
 }

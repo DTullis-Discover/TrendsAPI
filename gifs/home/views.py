@@ -1,35 +1,50 @@
 from django.shortcuts import render
 from pytrends.request import TrendReq
 import pandas as pd
-import json, time
+import json, time, re
+from gifs.home.models import Keyword, Trend
 
 # Create your views here.
 def home(request):
 
-    # Generating list of currently trending keywords
+    regex1 = r"""
+                [^a-zA-Z0-9 ] # [^] = match any character not in the set
+                              # set = all characters a-z, A-Z, 0-9 and spaces
+                """
+    pattern1 = re.compile(regex1, re.VERBOSE)
+
+    # Generating list of lists of currently trending keywords with punctuation stripped.
+    # Punctuation breaks .interest_over_time() method in some cases at least.
+    # .interest_over_time() expects a list for parameter kw_list
     pytrends = TrendReq(hl='en-US', tz=360)
     response = pytrends.trending_searches(pn='united_states')
     data = json.loads(response.to_json())["0"]
-    kw_list = [value for key, value in data.items()]
-
-    # Break list into smaller lists of 5
-    lists_of_five = [kw_list[i*5:(i+1)*5] for i in range((len(kw_list) + (5-1))//5)]
-    #print("kw_list:", kw_list)
-    #print("list_of_five:", lists_of_five)
+    keyword_list = [[pattern1.sub(" ", value)] for key, value in data.items()]
+    #print("keyword_list:", keyword_list)
 
     # Get interest over time and store in single dataframe
     combined_df = pd.DataFrame()
 
-    for terms in lists_of_five:
-        pytrends.build_payload(kw_list=terms, cat=0, timeframe='now 1-d', geo='US', gprop='')
-        time.sleep(2)
+    # search for each item separately
+    for term in keyword_list: 
+        pytrends.build_payload(kw_list=term, cat=0, timeframe='now 1-d', geo='US', gprop='')
+        time.sleep(1)
         data = pytrends.interest_over_time()
-        data= data.drop(labels=['isPartial'],axis='columns')
+        data = data.drop(labels=['isPartial'], axis='columns')
+        if Keyword.objects.filter(name=term[0]).exists():
+            print("object with name '{}' already exists in the db".format(term[0]))
+        else:
+            trend = Trend(data=str(data.to_json()))
+            keyword = Keyword(name=term[0], trends=trend)
+            trend.save()
+            keyword.save()
         #print(data)
         combined_df = pd.concat([combined_df, data], axis=1, sort=False)
 
-    # see django output in terminal for verification
+    # see django output in terminal for verification. NOTE: due to sleep function, you will
+    # have to wait for about 20 seconds to receive the reply
     print(combined_df)
+    print(Keyword.objects.all())
 
     context = {
         "props": {

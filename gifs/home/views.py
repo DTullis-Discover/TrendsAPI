@@ -31,10 +31,13 @@ def home(request):
         time.sleep(1)
         data = pytrends.interest_over_time()
         data = data.drop(labels=['isPartial'], axis='columns')
-        #trend = Trend(data=str(data.to_json()))
-        #keyword = Keyword(name=term[0], trends=trend)
-        #trend.save()
-        #keyword.save()
+        if Keyword.objects.filter(name=term[0]).exists():
+            print("object with name '{}' already exists in the db".format(term[0]))
+        else:
+            trend = Trend(data=str(data.to_json()))
+            keyword = Keyword(name=term[0], trends=trend)
+            trend.save()
+            keyword.save()
         #print(data)
         combined_df = pd.concat([combined_df, data], axis=1, sort=False)
 

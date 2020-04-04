@@ -5,6 +5,7 @@ import { select, line, curveCardinal, axisBottom, scaleLinear, axisRight } from 
 function Home(props) {
 
   const keywords = window.props.keywords
+	console.log(keywords)
 	
   const [data, setData] =  useState([25,30,45,60,20, 65, 75, 90, 100, 120, 35, 50]);
   const svgRef = useRef();

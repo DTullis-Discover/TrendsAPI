@@ -3,6 +3,7 @@ from pytrends.request import TrendReq
 import pandas as pd
 import json, time, re
 from gifs.home.models import Keyword, Trend
+from django.core import serializers
 
 # Create your views here.
 def home(request):
@@ -38,18 +39,14 @@ def home(request):
             keyword = Keyword(name=term[0], trends=trend)
             trend.save()
             keyword.save()
-        #print(data)
-        combined_df = pd.concat([combined_df, data], axis=1, sort=False)
 
     # see django output in terminal for verification. NOTE: due to sleep function, you will
     # have to wait for about 20 seconds to receive the reply
-    print(combined_df)
-    print(Keyword.objects.all())
+    keywords = serializers.serialize("json", Keyword.objects.all())
 
     context = {
         "props": {
-            "keyword": "Blockchain",
-            "trendData": combined_df.to_json(),
+            "keywords": json.loads(keywords),
         },
     }
 

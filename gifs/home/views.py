@@ -32,19 +32,30 @@ def home(request):
         data = pytrends.interest_over_time()
         data = data.drop(labels=['isPartial'], axis='columns')
         if Keyword.objects.filter(name=term[0]).exists():
+            # if keyword already exists, get old object. save only the trend
             print("object with name '{}' already exists in the db".format(term[0]))
-        else:
-            trend = Trend(data=str(data.to_json()))
-            keyword = Keyword(name=term[0], trends=trend)
+            # .filter() returns a list, so object will be at [0]
+            keyword = Keyword.objects.filter(name=term[0])[0]
+            trend = Trend(data=str(data.to_json()), keyword=keyword)
             trend.save()
+        else:
+            # if keyword is new, create a new object for it. save keyword and trend
+            keyword = Keyword(name=term[0])
+            trend = Trend(data=str(data.to_json()), keyword=keyword)
             keyword.save()
+            trend.save()
         #print(data)
         combined_df = pd.concat([combined_df, data], axis=1, sort=False)
 
-    # see django output in terminal for verification. NOTE: due to sleep function, you will
-    # have to wait for about 20 seconds to receive the reply
+    # see django output in terminal for verification
     print(combined_df)
-    print(Keyword.objects.all())
+    print("Keyword.objects.all():", Keyword.objects.all())
+    print("Keyword.objects.count():", Keyword.objects.count())
+    print("Trend.objects.all():", Trend.objects.all())
+    print("Trend.objects.count():", Trend.objects.count())
+    test_kw = keyword_list[0][0]
+    print("Trend.objects.filter(keyword__name='{}')".format(test_kw),
+          Trend.objects.filter(keyword__name=test_kw))
 
     context = {
         "props": {

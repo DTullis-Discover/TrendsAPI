@@ -4,7 +4,7 @@ import pandas as pd
 import json, time, re
 from gifs.home.models import Keyword, Trend
 from django.core import serializers
-from datetime import datetime
+
 
 # Create your views here.
 def home(request):
@@ -27,12 +27,15 @@ def home(request):
     # Get interest over time and store in single dataframe
     combined_df = pd.DataFrame()
 
+    # alternative way to clean your database
+    """
     print("Trend.objects.all():/n", Trend.objects.all())
     Trend.objects.all().delete()
     print("Trend.objects.all():/n", Trend.objects.all())
     print("Keyword.objects.all():/n", Keyword.objects.all())
     Keyword.objects.all().delete()
     print("Keyword.objects.all():/n", Keyword.objects.all())
+    """
 
     # search for each item separately
     for term in keyword_list: 
@@ -77,12 +80,10 @@ def home(request):
     print("Trend.objects.filter(keyword__name='{}')".format(test_kw),
           Trend.objects.filter(keyword__name=test_kw))
 
-    all_trends = serializers.serialize("json", Trend.objects.all())
+    all_trends = serializers.serialize("json", Trend.objects.all(), use_natural_foreign_keys=True)
 
     context = {
         "props": {
-            #"keyword": "Blockchain",
-            #"trendData": combined_df.to_json(),
             "trends": json.loads(all_trends),
         },
     }

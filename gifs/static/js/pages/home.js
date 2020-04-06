@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom'
 
 function Home(props) {
 
-  const keyword = window.props.keyword
-  const trendData = window.props.trendData
-
-  console.log(keyword)
-  console.log(trendData)
+  
+  const trends = window.props.trends
+	console.log(trends)
 
   const h1 = (
     <div>

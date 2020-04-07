@@ -8,7 +8,7 @@ docker-compose -f local.yml up
 
 # Run the frontend
 npm install 
-npm install 
+npm run watch 
 
 # Access Django Interactve Shell
 docker-compose -f local.yml run django python manage.py shell

@@ -1,59 +1,108 @@
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import ReactDOM from "react-dom"
-import { axisLeft, keys, extent, scalePoint, scaleLinear, select, line } from "d3";
-import data from "./../../json/dummy.json"
+import { axisLeft, axisRight, curveCardinal, axisBottom, keys, extent, scalePoint, scaleLinear, select, line } from "d3";
+import notData from "./../../json/dummy.json"
 
 function About() {
 	// func vars
 	const svgRef = useRef()
 
-  var individualData = JSON.parse(data[0]["fields"]["data"])
-  var keyword = data[0]["fields"]["keyword"]
-  var realData = individualData[keyword]
+  const [data, setData] =  useState([25,30,45,60,20, 65, 75, 90, 100, 120, 35, 50]);
+
+  let individualData = JSON.parse(notData[0]["fields"]["data"])
+  let keyword = notData[0]["fields"]["keyword"]
+  let realData = individualData[keyword]
+
 
   console.log(individualData)
   console.log(keyword)
   console.log(realData)
 
+  let x
+  for(x in realData){
+    let d = new Date(0)
+    d.setUTCSeconds(x)
+    console.log(d)
+  }
+
 	let margin = {top: 30, right: 10, bottom: 10, left: 0},
 		width = 800 - margin.left - margin.right,
 		height = 600 - margin.top - margin.bottom;
 
-	// on data update do thing
-	useEffect(() => {
 
-		// connect to dom
-		const svg = select(svgRef.current)
-			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom)
-		.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  //will be called for every data change
+  useEffect(() => {
+    const svg = select(svgRef.current);
+    const xScale = scaleLinear()
+      .domain([0, data.length - 1])
+      .range([0, 300]);
+
+    //y size of svg
+    const yScale = scaleLinear()
+      .domain([0, 150])
+      .range([150, 0]);
+
+    //x size of svg
+    const xAxis = axisBottom(xScale).ticks(data.length).tickFormat(index => index + 1);
+    svg
+      .select(".x-axis")
+      .style("transform", "translateY(150px)")
+      .call(xAxis);
+
+    const yAxis = axisRight(yScale);
+    svg
+      .select(".y-axis")
+      .style("transform", "translateX(300px)")
+      .call(yAxis);
+    
+    // generates the "d" attribute of a path element
     const myLine = line()
-      .x((value, index) => index * 50)
-      .y(value => value)
+      .x((value, index) => xScale(index))
+      .y(yScale)
+      .curve(curveCardinal);
 
-
-		// Draw the lines
-		svg
-			.selectAll("myPath")
-			.data(data)
+    
+    
+      //render path element, and attaches the "d" attribute from line generator above
+    
+    svg
+      .selectAll(".line")
+      .data([data])
       .join("path")
-			.attr("d",  value => myLine(JSON.parse(value.fields.data)))
-			.style("fill", "none")
-			.style("stroke", "turquoise")
-			.style("opacity", 0.5);
+      .attr("class", "line")
+      .attr("d", myLine)
+      .attr("fill", "none")
+      .attr("stroke", "blue");
 
-	}, [data,]);
+  }, [data]);
+
+  //console.log(keyword)
+  //console.log(trendData)
 
 	return (
-		<div className="d3-svg-container">
-			<svg className="d3-svg" ref={svgRef} ></svg>
-		</div>
+    <React.Fragment>
+      <svg ref={svgRef}>
+        <g className="x-axis" />
+        <g className="y-axis" />
+      </svg>
+      <br />
+      <br />
+      <br />
+      <button onClick={() => setData(data.map(value => value + 5))}>
+        Update data
+      </button>
+      <button onClick={() => setData(data.filter(value => value  <= 35))}>
+        Filter data
+      </button>
+    </React.Fragment>
 	);
 
-} 
+
+}
+
 
 ReactDOM.render(
 	<About/>,
 	document.getElementById("react")
-);
+)

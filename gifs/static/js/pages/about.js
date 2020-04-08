@@ -7,33 +7,44 @@ function About() {
 	// func vars
 	const svgRef = useRef()
 
-  const [data, setData] =  useState([25,30,45,60,20, 65, 75, 90, 100, 120, 35, 50]);
-
+  // Look at json and parse into vars
   let individualData = JSON.parse(notData[0]["fields"]["data"])
   let keyword = notData[0]["fields"]["keyword"]
   let realData = individualData[keyword]
 
-
+  // Verify vars
+  /*
   console.log(individualData)
   console.log(keyword)
+  */
   console.log(realData)
 
+  // Store test line data here
+  let realDates = []
   let x
+  // Loop through date parse epoch
   for(x in realData){
-    let d = new Date(0)
-    d.setUTCSeconds(x)
-    console.log(d)
+    console.log(realData[x])
+    realDates.push(realData[x])
   }
 
+  // Look at the date list
+  console.log(realDates)
+
+  // Set the data
+  const [data, setData] =  useState(realDates);
+
+  /* 
 	let margin = {top: 30, right: 10, bottom: 10, left: 0},
 		width = 800 - margin.left - margin.right,
 		height = 600 - margin.top - margin.bottom;
-
-
+  */
 
   //will be called for every data change
   useEffect(() => {
     const svg = select(svgRef.current);
+
+    //x size of svg
     const xScale = scaleLinear()
       .domain([0, data.length - 1])
       .range([0, 300]);
@@ -44,6 +55,7 @@ function About() {
       .range([150, 0]);
 
     //x size of svg
+    /*
     const xAxis = axisBottom(xScale).ticks(data.length).tickFormat(index => index + 1);
     svg
       .select(".x-axis")
@@ -55,6 +67,7 @@ function About() {
       .select(".y-axis")
       .style("transform", "translateX(300px)")
       .call(yAxis);
+    */
     
     // generates the "d" attribute of a path element
     const myLine = line()
@@ -63,9 +76,7 @@ function About() {
       .curve(curveCardinal);
 
     
-    
-      //render path element, and attaches the "d" attribute from line generator above
-    
+    //render path element, and attaches the "d" attribute from line generator above
     svg
       .selectAll(".line")
       .data([data])
@@ -76,9 +87,6 @@ function About() {
       .attr("stroke", "blue");
 
   }, [data]);
-
-  //console.log(keyword)
-  //console.log(trendData)
 
 	return (
     <React.Fragment>
@@ -97,7 +105,6 @@ function About() {
       </button>
     </React.Fragment>
 	);
-
 
 }
 

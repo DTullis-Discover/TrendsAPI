@@ -3,37 +3,46 @@ import ReactDOM from "react-dom"
 import { axisLeft, axisRight, curveCardinal, axisBottom, keys, extent, scalePoint, scaleLinear, select, line } from "d3";
 import notData from "./../../json/dummy.json"
 
+function processedData(theData) {
+  let processedData = []
+  let x
+  let y
+  for( x in theData ) {
+    let singleKey = theData[x]["fields"]["keyword"]
+    let singleData = JSON.parse(theData[x]["fields"]["data"])[singleKey]
+    let singleDate = theData[x]["fields"]["date"] 
+    let singleLine = [] 
+
+    // Loop through date parse epoch
+    for(y in singleData){
+      singleLine.push(singleData[y])
+    }
+
+    let singleObj = {
+      "keyword": singleKey,
+      "date": singleDate,
+      "data": singleData,
+      "line": singleLine
+    }
+    processedData.push(singleObj)
+  }
+  return processedData
+}
+
 function About() {
 	// func vars
 	const svgRef = useRef()
 
-  // Look at json and parse into vars
-  let individualData = JSON.parse(notData[0]["fields"]["data"])
-  let keyword = notData[0]["fields"]["keyword"]
-  let realData = individualData[keyword]
-
-  // Verify vars
-  /*
-  console.log(individualData)
-  console.log(keyword)
-  */
-  console.log(realData)
-
-  // Store test line data here
-  let realDates = []
-  let x
-  // Loop through date parse epoch
-  for(x in realData){
-    console.log(realData[x])
-    realDates.push(realData[x])
+  // Set the data
+  let realDates = processedData(notData)
+  let why = new Array()
+  let z
+  for (z in realDates[0]["line"])
+  {
+    why.push(Number(z))
   }
 
-  // Look at the date list
-  console.log(realDates)
-
-  // Set the data
-  const [data, setData] =  useState(realDates);
-
+  const [data, setData] =  useState(z)
   /* 
 	let margin = {top: 30, right: 10, bottom: 10, left: 0},
 		width = 800 - margin.left - margin.right,
@@ -43,7 +52,6 @@ function About() {
   //will be called for every data change
   useEffect(() => {
     const svg = select(svgRef.current);
-
     //x size of svg
     const xScale = scaleLinear()
       .domain([0, data.length - 1])
@@ -82,7 +90,7 @@ function About() {
       .data([data])
       .join("path")
       .attr("class", "line")
-      .attr("d", myLine)
+      .attr("d", value => myLine(value.data))
       .attr("fill", "none")
       .attr("stroke", "blue");
 

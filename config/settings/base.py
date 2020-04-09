@@ -76,6 +76,7 @@ LOCAL_APPS = [
     "gifs.users.apps.UsersConfig",
     # Your stuff: custom apps go here
     "gifs.home.apps.HomeConfig",
+    "gifs.jifs.apps.JifsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

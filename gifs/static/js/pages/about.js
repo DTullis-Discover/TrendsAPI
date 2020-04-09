@@ -35,6 +35,7 @@ function About() {
 
   // Set the data
   let realDates = processedData(notData)
+  console.log(realDates)
   let why = new Array()
   let z
   for (z in realDates[0]["line"])

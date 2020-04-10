@@ -76,7 +76,7 @@ LOCAL_APPS = [
     "gifs.users.apps.UsersConfig",
     # Your stuff: custom apps go here
     "gifs.home.apps.HomeConfig",
-    "gifs.trends.apps.TrendsConfig",
+    "gifs.jifs.apps.JifsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -224,7 +224,7 @@ EMAIL_TIMEOUT = 5
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("""Team 10""", "team-10@example.com")]
+ADMINS = [("""Team 10""", "samuel.piecz@gmail.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 

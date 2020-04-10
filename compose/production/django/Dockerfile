@@ -1,4 +1,3 @@
-
 FROM python:3.7-slim-buster
 
 ENV PYTHONUNBUFFERED 1
@@ -8,14 +7,11 @@ RUN apt-get update \
   && apt-get install -y build-essential \
   # psycopg2 dependencies
   && apt-get install -y libpq-dev \
-  # npm 
-  && apt-get install -y npm \
   # Translations dependencies
   && apt-get install -y gettext \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
-
 
 RUN addgroup --system django \
     && adduser --system --ingroup django django
@@ -40,7 +36,6 @@ USER django
 
 WORKDIR /app
 COPY . .
-RUN npm install && npm audit fix && npm run build 
 
 
 ENTRYPOINT ["/entrypoint"]

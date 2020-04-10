@@ -278,4 +278,4 @@ gifs/media/
 !.envs/.local/
 
 # Javascript bundles
-gifs/static/bundles/*
+gifs/static/bundles/

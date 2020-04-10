@@ -4,7 +4,7 @@
 DJANGO_SETTINGS_MODULE=config.settings.production
 DJANGO_SECRET_KEY=wp6w0vRLetqetmPRUVpDB2HgaqqfBfP6nMuPi9nGpG7cIvxThgpHVgtwZC84JVaA
 DJANGO_ADMIN_URL=WMs3D6oi04exmeC4viwp4AKpifKXu3NY/
-DJANGO_ALLOWED_HOSTS=.example.com
+DJANGO_ALLOWED_HOSTS=167.172.239.112
 
 # Security
 # ------------------------------------------------------------------------------
@@ -21,9 +21,9 @@ MAILGUN_DOMAIN=
 
 # AWS
 # ------------------------------------------------------------------------------
-DJANGO_AWS_ACCESS_KEY_ID=
-DJANGO_AWS_SECRET_ACCESS_KEY=
-DJANGO_AWS_STORAGE_BUCKET_NAME=
+DJANGO_AWS_ACCESS_KEY_ID=AKIAJH7RVLKUPEFIZ3ZQ
+DJANGO_AWS_SECRET_ACCESS_KEY=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
+DJANGO_AWS_STORAGE_BUCKET_NAME=team10isateam
 
 # django-allauth
 # ------------------------------------------------------------------------------

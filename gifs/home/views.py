@@ -4,7 +4,8 @@ import pandas as pd
 import json, time, re
 from gifs.home.models import Keyword, Trend
 from django.core import serializers
-
+from django.views.generic import ListView
+from django.views.generic import DetailView
 
 # Create your views here.
 def home(request):
@@ -89,3 +90,33 @@ def home(request):
     }
 
     return render(request, 'pages/home.html', context)
+
+
+class TrendingListView(ListView):
+
+    model = Keyword
+    template_name = 'pages/list.html'
+    #pytrends = TrendReq(hl='en-US', tz=360)
+    #response = pytrends.trending_searches(pn='united_states')
+    #queryset = Keyword.objects.filter(name = response)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trend_name'] = Keyword.name
+        return context
+
+#def treningWords(request):
+#    pytrends = TrendReq(hl='en-US', tz=360)
+#    trendingWords = pytrends.trending_searches(pn='united_states')
+
+#    return trendingWords
+
+
+class TrendingDetailView(DetailView):
+
+    model = Keyword
+    template_name = 'pages/detail.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trend_detail'] = Trend.objects.all()
+        return context

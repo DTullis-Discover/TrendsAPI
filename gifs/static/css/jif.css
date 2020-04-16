@@ -1,0 +1,14 @@
+.jif-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.jif-item {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  padding: 10px;
+}
+

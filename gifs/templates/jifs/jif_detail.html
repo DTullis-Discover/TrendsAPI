@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>{{ jif }}</h1>
-	<img src="{{ jif.image }}" />
+	<h1>{{ jif.title|title }}</h1>
+  <iframe src="{{ jif.url }}" width="auto" height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
 {% endblock content %}

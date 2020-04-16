@@ -35,10 +35,8 @@ def JifList(request):
 
     # Loop through JSON blob and add NEW items to DB
     for item in data["data"]:
-        try:
-            jif = Jif.objects.get(url=item["embed_url"])
-        except Jif.DoesNotExist:
-            jif = Jif(url=item["embed_url"], title=item["title"], trending_datetime=item["trending_datetime"])
+        jif, created = Jif.objects.get_or_create(url=item["embed_url"], title=item["title"], trending_datetime=item["trending_datetime"])
+        if created == True:
             jif.save()
 
     # Get the objects to pass to page

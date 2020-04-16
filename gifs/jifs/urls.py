@@ -1,9 +1,9 @@
 from django.urls import path
-from gifs.jifs.views import JifDetailView, JifListView
+from gifs.jifs.views import JifDetailView, JifList
 
 app_name = "jifs"
 
 urlpatterns = [
-    # path("<image:image>/", JifDetailView.as_view(), name="jif-detail"),
-    path("list", JifListView.as_view(), name="jif-list"),
+    path("<int:pk>/", JifDetailView.as_view(), name="jif-detail"),
+    path("", JifList, name="jif-list"),
 ]

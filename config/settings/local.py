@@ -56,3 +56,4 @@ INSTALLED_APPS += ["django_extensions"]
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+GIPHYKEY = env("GIPHYKEY")

@@ -14,20 +14,11 @@
     <![endif]-->
 
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
-
-    {% block css %}
-    
-    <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
-
-    <!-- Your stuff: Third-party CSS libraries go here -->
-    
-    <!-- This file stores project-specific CSS -->
-    
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
-    
-    
+ 
+    {% block css %}
+   
     {% endblock %}
 
   </head>
@@ -48,6 +39,13 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About</a>
+<<<<<<< HEAD
+=======
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'jifs:jif-list' %}">Gifs</a>
+            </li>
+>>>>>>> 284967efbeece9ab15d6e4688a088c3104308d69
             {% if request.user.is_authenticated %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}

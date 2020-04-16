@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>Top 10 Trending Words</h1>
+	<ul>
+    {% for keyword in object_list|slice:":10" %}
+			<p>
+				{{forloop.counter}}: {{ keyword.name }}
+            </p>
+	{% empty %}
+			<li>No Trending Words.</li>
+	{% endfor %}
+	</ul>
+{% endblock content %}

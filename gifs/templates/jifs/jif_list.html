@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+	<link href="{% static 'css/jif.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+	<div class="header-container">
+		<h1>Gifs</h1>
+	</div>
+	<div class="jif-container">
+	{% for jif in jifs %}
+    <div class="jif-item">
+      <a href="/gifs/{{ jif.pk }}/">
+        <p>{{ jif.title|title }}</p>
+        <iframe src="{{ jif.url }}" width="auto" height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+      </a>
+    </div>
+	{% endfor %}
+	</div>
+{% endblock content %}

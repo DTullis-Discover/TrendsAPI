@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>Articles</h1>
+	<ul>
+	{% for jif in object_list %}
+			<li>
+				<a href="{{ jif.pk }}">{{ jif.image }}</a>
+			</li>
+	{% empty %}
+			<li>No jifs yet.</li>
+	{% endfor %}
+	</ul>
+{% endblock content %}

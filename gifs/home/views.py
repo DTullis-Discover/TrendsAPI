@@ -114,7 +114,7 @@ class TrendingListView(ListView):
 
 class TrendingDetailView(DetailView):
 
-    model = Keyword
+    model = Trend
     template_name = 'pages/detail.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>Top 10 Trending Words</h1>
+	<h1>Currently Trending</h1>
 	<ul>
     {% for keyword in object_list|slice:":10" %}
 			<a href="/list/{{ keyword.pk }}/">

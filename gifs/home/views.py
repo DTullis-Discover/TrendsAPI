@@ -6,6 +6,7 @@ from gifs.home.models import Keyword, Trend
 from django.core import serializers
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.db.models import Count
 
 # Create your views here.
 def home(request):
@@ -95,12 +96,12 @@ def home(request):
 class TrendingListView(ListView):
 
     model = Keyword
+    queryset = Keyword.objects.annotate(name_count = Count('name')).order_by('name_count')
     template_name = 'pages/list.html'
-    #pytrends = TrendReq(hl='en-US', tz=360)
-    #response = pytrends.trending_searches(pn='united_states')
-    #queryset = Keyword.objects.filter(name = response)
-
+  
     def get_context_data(self, **kwargs):
+        #pytrends = TrendReq(hl='en-US', tz=360)
+        #response = pytrends.trending_searches(pn='united_states')
         context = super().get_context_data(**kwargs)
         context['trend_name'] = Keyword.name
         return context
@@ -116,7 +117,8 @@ class TrendingDetailView(DetailView):
 
     model = Trend
     template_name = 'pages/detail.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['trend_detail'] = Trend.objects.all()
+        context['trend_detail'] = Trend.data
         return context

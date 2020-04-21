@@ -2,10 +2,10 @@
 {% block content %}
 	<h1>Currently Trending</h1>
 	<ul>
-    {% for keyword in object_list|slice:":10" %}
-			<a href="/list/{{ keyword.pk }}/">
+    {% for trend in object_list %}
+			<a href="/list/{{ trend.pk }}/">
 			<p>
-				{{forloop.counter}}: {{ keyword.name }}
+				{{forloop.counter}}: {{ trend.keyword }}
 			</p>
 			</a>
 	{% empty %}

@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('date', models.DateField(auto_now_add=True)),
                 ('data', models.TextField(blank=True)),
+
             ],
         ),
         migrations.CreateModel(

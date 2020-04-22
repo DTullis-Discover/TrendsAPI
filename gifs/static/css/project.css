@@ -1,8 +1,24 @@
+/*****************************************************************************/
+/*               Keyword List                                                */     
+/*****************************************************************************/
+
+.keyword-list {
+  font-size: 1.25rem;
+}
+
+/*****************************************************************************/
+/*               Trend Charts                                                */     
+/*****************************************************************************/
+
 svg {
   overflow:visible;
   max-Width:100%;
   border: solid;
 }
+
+/*****************************************************************************/
+/*               Jifs                                                        */     
+/*****************************************************************************/
 
 
 /* Flex container */
@@ -29,35 +45,29 @@ svg {
 
 @media only screen and (min-width: 500px) and (max-width: 1000px)
 {
-
   .gif-container {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-end;
   }
-
 }
 
 
 @media only screen and (min-width: 500px) and (max-width: 1000px)
 {
-
   .gif-container {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-end;
   }
-
 }
 
 
 @media only screen and (min-width: 500px) and (max-width: 1000px)
 {
-
   .gif-container {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-end;
   }
-
 }

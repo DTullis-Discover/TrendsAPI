@@ -9,7 +9,45 @@ from django.views.generic import DetailView
 from django.db.models import Count
 from django.utils import timezone
 
-# Create your views here.
+#################################################################
+# Start Sam's Views                                             #
+#################################################################
+
+'''
+This view will simply list all the current keyword objects that we have.
+'''
+def listKeywords(request):
+    keywords = Keyword.objects.all()
+    return render(request, "pages/list.html", {"keywords": keywords})
+
+'''
+This view will take a PK for a keyword.
+It will then return all trend objects associated with it.
+It also returns keyword title for H1 in html template.
+'''
+def showTrend(request, pk):
+
+    keywordName = Keyword.objects.filter(pk=pk).last()
+
+    trends = serializers.serialize(
+            "json", 
+            Trend.objects.filter(keyword__pk=pk), 
+            use_natural_foreign_keys=True
+    )
+
+    context = {
+    "keywordName": keywordName,
+    "props": {
+            "trends": trends,
+        }
+    }
+
+    return render(request, "pages/detail.html", context)
+
+#################################################################
+# Start Ben's Views                                             #
+#################################################################
+
 def home(request):
 
     regex1 = r"""
@@ -94,33 +132,23 @@ def home(request):
     return render(request, 'pages/home.html', context)
 
 
-class TrendingListView(ListView):
+#################################################################
+# Start Donny's Views                                             #
+#################################################################
 
+class TrendingListView(ListView):
     model = Trend
-    #queryset = Keyword.objects.filter(name = "Babyface")
-    template_name = 'pages/list.html'
+    template_name = ''
   
     def get_context_data(self, **kwargs):
-        #pytrends = TrendReq(hl='en-US', tz=360)
-        #response = pytrends.trending_searches(pn='united_states')
         context = super().get_context_data(**kwargs)
         return context
 
-#def treningWords(request):
-#    pytrends = TrendReq(hl='en-US', tz=360)
-#    trendingWords = pytrends.trending_searches(pn='united_states')
-
-#    return trendingWords
-
-
 class TrendingDetailView(DetailView):
-
     model = Trend
-
     template_name = 'pages/detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trend-data'] = Trend.objects.all()
         return context
-    

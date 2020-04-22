@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect, setState } from 'react'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
 import ReactDOM from 'react-dom'
 import { select, line, curveCardinal, axisBottom, scaleLinear, axisRight } from "d3";
 import notData from "./../../json/dummy.json"
 
 var incr = 1;
+
 
 function processedData(theData) {
   let processedData = []
@@ -146,36 +145,33 @@ function About() {
 
   }, [data]);
 
-  const h1 = (
-    <React.Fragment>
-      <br />
-      <br />
-      <Card style={{ width: '9rem' }}>
-        <Card.Body>
-          <Card.Text>
-          
-            <p>{keyDisplay()}</p>
-          
-          </Card.Text>
-        </Card.Body>
-      </Card>
-      <br />
-      <svg ref={svgRef}>
-        <g className="x-axis" />
-        <g className="y-axis" />
-      </svg>
-      <br />
-      <br />
-      <Button variant="outline-warning" size="lg" active onClick={() => increment()}>
-        Next Trend
-      </Button>      
-    </React.Fragment>
+  const trend = (
+    <div className="container">
+      <div className="row pt-3 pb-2">
+        <div className="col">
+          <h1>{keyDisplay()}</h1>
+        </div>
+      </div>
+      <div className="row"> 
+        <div className="col">
+          <svg ref={svgRef}>
+          <g className="x-axis" />
+          <g className="y-axis" />
+          </svg>
+        </div>
+      </div>
+      <div className="row pt-4 pb-2">
+        <div className="col">
+          <button className="btn btn-primary btn-lg" onClick={() => increment()}>See Another Trend</button>
+        </div>
+      </div>
+    </div>
   );
   
 
   return (
     <>
-     {h1} 
+     {trend} 
     </>
   );
 

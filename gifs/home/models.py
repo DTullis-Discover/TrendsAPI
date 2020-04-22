@@ -20,7 +20,7 @@ class Keyword(models.Model):
 class Trend(models.Model):
     date = models.DateField(default=datetime.datetime.utcnow)
     data = models.TextField(blank=True)
-    keyword = models.ForeignKey(Keyword, default="", on_delete=models.CASCADE)
+    keyword = models.ForeignKey(Keyword, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.date)

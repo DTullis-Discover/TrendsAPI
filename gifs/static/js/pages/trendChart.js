@@ -5,14 +5,15 @@ import notData from "./../../json/dummy.json"
 
 var incr = 1;
 
-
+// This function takes serialized trend objects
+// and turns them into json that can plug and play with D3.js easier.
 function processedData(theData) {
   let processedData = []
-  let x
+  let x = 0
   let y
-  for( x in theData ) {
+  for( x; x < Object.keys(theData).length; x++) {
     let singleKey = theData[x]["fields"]["keyword"]
-    let singleData = JSON.parse(theData[x]["fields"]["data"])[singleKey]
+    let singleData = JSON.parse(theData[x]["fields"]["data"])
     let singleDate = theData[x]["fields"]["date"]
     let singleLine = []
 
@@ -32,15 +33,15 @@ function processedData(theData) {
   return processedData
 }
 
-function About() {
+function TrendChart() {
 
   const svgRef = useRef();
 
-
-
   //set data
-  let realDates = processedData(notData)
-  console.log(realDates)
+  let dataFromView = JSON.parse(window.props.trends)
+  console.log(dataFromView)
+  let realDates = processedData(dataFromView)
+
   let why = new Array()
 
   var z
@@ -50,16 +51,7 @@ function About() {
     why.push(realDates[0]["line"][z])
   }
 
-  //console.log(why1);
-  console.log(incr);
 
-  let keys = new Array()
-  var k
-  for(k = 0; k < 220; k++){
-    keys.push(realDates[k]["keyword"])
-  }
-
-  console.log(keys);
 
   function increment(){
     if(incr<180)
@@ -69,11 +61,6 @@ function About() {
     if(incr>1)
       setData(realDates[incr--]["line"]);
   }
-
-  function keyDisplay(){
-    return keys[incr];
-  }
-
 
   const [data, setData] =  useState(why);
 
@@ -110,16 +97,12 @@ function About() {
       .range([150, 0]);
 
 
-
-
-      const yAxis = axisRight(yScale);
+    const yAxis = axisRight(yScale);
       svg
         .select(".y-axis")
         .style("transform", "translateX(300px)")
         .call(yAxis);
 
-
-    //x size of svg
 
     // generates the "d" attribute of a path element
     const myLine = line()
@@ -128,9 +111,6 @@ function About() {
       .curve(curveCardinal);
 
 
-
-      //render path element, and attaches the "d" attribute from line generator above
-
     svg
       .selectAll(".line")
       .data([data])
@@ -138,20 +118,12 @@ function About() {
       .attr("class", "line")
       .attr("d", myLine)
       .attr("fill", "none")
-      .attr("stroke", "green");
-
-
-
+      .attr("stroke", "orange");
 
   }, [data]);
 
   const trend = (
     <div className="container">
-      <div className="row pt-3 pb-2">
-        <div className="col">
-          <h1>{keyDisplay()}</h1>
-        </div>
-      </div>
       <div className="row">
         <div className="col">
           <svg ref={svgRef}>
@@ -160,13 +132,17 @@ function About() {
           </svg>
         </div>
       </div>
-      <div className="row pt-4 pb-2">
-        <div className="col">
-          <button className="btn btn-primary btn-lg" onClick={() => increment()}>See Another Trend</button>
-        </div>
-      </div>
     </div>
   );
+
+  /* For whenever you want to add your button back in David.
+   *
+  <div className="row pt-4 pb-2">
+    <div className="col">
+      <button className="btn btn-primary btn-lg" onClick={() => increment()}>See Another Trend</button>
+    </div>
+  </div>
+  */
 
 
   return (
@@ -178,6 +154,6 @@ function About() {
 }
 
 ReactDOM.render(
-  <About />,
+  <TrendChart/>,
   document.getElementById('react')
 );

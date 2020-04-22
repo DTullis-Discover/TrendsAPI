@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Currently Trending</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+			<ol>
+        {% for keyword in keywords %}
+        <li>
+          <a href="/list/{{ keyword.pk }}/">{{ keyword.name }}</a>
+        </li>
+        {% endfor %}
+			</ol>
+    </div>
+  </div>
+{% endblock content %}

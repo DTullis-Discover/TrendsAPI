@@ -5,9 +5,50 @@ import json, time, re
 from gifs.home.models import Keyword, Trend
 from django.core import serializers
 from django.contrib import messages
+from django.views.generic import ListView
+from django.views.generic import DetailView
+from django.db.models import Count
+from django.utils import timezone
 
+#################################################################
+# Start Sam's Views                                             #
+#################################################################
 
-# Create your views here.
+'''
+This view will simply list all the current keyword objects that we have.
+'''
+def listKeywords(request):
+    keywords = Keyword.objects.all()
+    return render(request, "pages/list.html", {"keywords": keywords})
+
+'''
+This view will take a PK for a keyword.
+It will then return all trend objects associated with it.
+It also returns keyword title for H1 in html template.
+'''
+def showTrend(request, pk):
+
+    keywordName = Keyword.objects.filter(pk=pk).last()
+
+    trends = serializers.serialize(
+            "json", 
+            Trend.objects.filter(keyword__pk=pk), 
+            use_natural_foreign_keys=True
+    )
+
+    context = {
+    "keywordName": keywordName,
+    "props": {
+            "trends": trends,
+        }
+    }
+
+    return render(request, "pages/detail.html", context)
+
+#################################################################
+# Start Ben's Views                                             #
+#################################################################
+
 def home(request):
 
     regex1 = r"""
@@ -104,3 +145,25 @@ def home(request):
     }
 
     return render(request, 'pages/home.html', context)
+
+
+#################################################################
+# Start Donny's Views                                             #
+#################################################################
+
+class TrendingListView(ListView):
+    model = Trend
+    template_name = ''
+  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class TrendingDetailView(DetailView):
+    model = Trend
+    template_name = 'pages/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trend-data'] = Trend.objects.all()
+        return context

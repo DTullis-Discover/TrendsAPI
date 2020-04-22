@@ -7,7 +7,8 @@ module.exports = {
 
   entry: {
     'home': './gifs/static/js/pages/home.js',
-    'about': './gifs/static/js/pages/about.js'
+    'about': './gifs/static/js/pages/about.js',
+    'trendChart': './gifs/static/js/pages/trendChart.js'
   },
 
   output: {

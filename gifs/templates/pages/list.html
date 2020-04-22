@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>Currently Trending</h1>
+	<ul>
+    {% for trend in object_list %}
+			<a href="/list/{{ trend.pk }}/">
+			<p>
+				{{forloop.counter}}: {{ trend.keyword }}
+			</p>
+			</a>
+	{% empty %}
+			<li>No Trending Words.</li>
+	{% endfor %}
+	</ul>
+{% endblock content %}

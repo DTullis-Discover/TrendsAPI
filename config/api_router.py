@@ -10,7 +10,7 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-router.register(r"users", UserViewSet, "users")
+router.register(r"users", UserViewSet)
 router.register(r"trends", TrendViewSet, "trends")
 router.register(r"keywords", KeywordViewSet, "keywords")
 router.register(r"jifs", JifViewSet, "jifs")

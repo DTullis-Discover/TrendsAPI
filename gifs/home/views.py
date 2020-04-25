@@ -139,6 +139,9 @@ def home(request):
     print("Trend.objects.filter(keyword__name='{}')".format(test_kw),
           Trend.objects.filter(keyword__name=test_kw))
 
+    # NOTE: .order_by('-value'): minus sign in front of value to give descending order
+    print(Trend.objects.values('keyword__name').annotate(keyword_count=Count('keyword__name')).order_by('-keyword_count'))
+
     all_trends = serializers.serialize("json", Trend.objects.all(), use_natural_foreign_keys=True)
 
     context = {

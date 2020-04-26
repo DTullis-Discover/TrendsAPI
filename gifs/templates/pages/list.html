@@ -10,9 +10,13 @@
     <div class="col">
 			<ol class="keyword-list">
         {% for keyword in keywords %}
+        {% for key, value in keyword.items %}
         <li>
-          <a href="/list/{{ keyword.pk }}/">{{ keyword.name }}</a>
+          <!--<a href="/list/{{ keyword.pk }}/">{{ keyword.name }}</a>-->
+          <!--<a href="/list/{{ keyword.pk }}/">{{ keyword }}</a>-->
+          <a href="/list/{{ keyword.pk }}/">{{ value }}</a>
         </li>
+        {% endfor %}
         {% endfor %}
 			</ol>
     </div>

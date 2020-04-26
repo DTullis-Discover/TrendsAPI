@@ -18,7 +18,8 @@ from django.contrib import messages
 This view will simply list all the current keyword objects that we have.
 '''
 def listKeywords(request):
-    keywords = Keyword.objects.all()
+    #keywords = Keyword.objects.all()
+    keywords = Trend.objects.values('keyword__name').annotate(keyword_count=Count('keyword__name')).order_by('-keyword_count')
     return render(request, "pages/list.html", {"keywords": keywords})
 
 '''
@@ -140,7 +141,11 @@ def home(request):
           Trend.objects.filter(keyword__name=test_kw))
 
     # NOTE: .order_by('-value'): minus sign in front of value to give descending order
-    print(Trend.objects.values('keyword__name').annotate(keyword_count=Count('keyword__name')).order_by('-keyword_count'))
+    temp = Trend.objects.values('keyword__name').annotate(keyword_count=Count('keyword__name')).order_by('-keyword_count')
+
+    print("type(temp):", type(temp)) # some type of data structure of dict
+    print("type(temp):", type(temp[0])) # dict for first keyword in results
+    print(temp[0]["keyword__name"])
 
     all_trends = serializers.serialize("json", Trend.objects.all(), use_natural_foreign_keys=True)
 

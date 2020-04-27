@@ -1,4 +1,4 @@
-#          Individual Commands                 
+#          Individual Commands   (changed the list.html, base.html, and the static/images folder)              
 
 #### Build & Up Project 
 * docker-compose -f local.yml build ,

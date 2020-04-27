@@ -18,8 +18,20 @@ from django.contrib import messages
 This view will simply list all the current keyword objects that we have.
 '''
 def listKeywords(request):
-    keywords = Keyword.objects.all()
+    # figure out which keywords have appeared the most
+    # NOTE: .order_by('-value'): minus sign in front of value to give descending order
+    temp = Trend.objects.values('keyword__name').annotate(keyword_count=Count('keyword__name')).order_by('-keyword_count')
+    #print(temp)
+    names = [x["keyword__name"] for x in temp]
+
+    # perform another query with results to get desired data structure
+    keywords = []
+    # weird syntax here gets content from returned Queryset and puts it into a list so it can be concatenated
+    for x in names:
+        keywords = keywords + [Keyword.objects.filter(name=x)[0]]
+
     return render(request, "pages/list.html", {"keywords": keywords})
+
 
 '''
 This view will take a PK for a keyword.
@@ -135,12 +147,11 @@ def home(request):
     print("Keyword.objects.count():", Keyword.objects.count())
     print("Trend.objects.all():", Trend.objects.all())
     print("Trend.objects.count():", Trend.objects.count())
-    test_kw = keyword_list[0][0]
+    if len(keyword_list) > 0:
+        test_kw = keyword_list[0][0]
     print("Trend.objects.filter(keyword__name='{}')".format(test_kw),
           Trend.objects.filter(keyword__name=test_kw))
 
-    # NOTE: .order_by('-value'): minus sign in front of value to give descending order
-    print(Trend.objects.values('keyword__name').annotate(keyword_count=Count('keyword__name')).order_by('-keyword_count'))
 
     all_trends = serializers.serialize("json", Trend.objects.all(), use_natural_foreign_keys=True)
 

@@ -48,6 +48,10 @@ def showTrend(request, pk):
             use_natural_foreign_keys=True
     )
 
+    pytrends = TrendReq(hl='en-US', tz=360)
+    pytrends.build_payload(kw_list = ["keyword__name"])
+    related_keywords = pytrends.related_queries()
+
     context = {
     "keywordName": keywordName,
     "props": {

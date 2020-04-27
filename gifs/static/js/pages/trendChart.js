@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, setState } from 'react'
 import ReactDOM from 'react-dom'
-import { select, line, curveCardinal, axisBottom, scaleLinear, axisRight } from "d3";
-import notData from "./../../json/dummy.json"
+import { select, line, curveCardinal, axisBottom, scaleLinear, axisLeft } from "d3";
 
 var incr = 1;
 
@@ -95,7 +94,7 @@ function TrendChart() {
     const xAxis = axisBottom(xScale);
       svg
         .select(".x-axis").call(xAxis)
-        .style("transform", "translateY(175px)")
+        .style("transform", "translateY(150px)")
         .call(xAxis);
 
     //y size of svg
@@ -104,10 +103,10 @@ function TrendChart() {
       .range([150, 0]);
 
 
-    const yAxis = axisRight(yScale);
+    const yAxis = axisLeft(yScale);
       svg
         .select(".y-axis")
-        .style("transform", "translateX(300px)")
+        .style("transform", "translateX(0px)")
         .call(yAxis);
 
 

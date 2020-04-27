@@ -40,9 +40,7 @@ It will then return all trend objects associated with it.
 It also returns keyword title for H1 in html template.
 '''
 def showTrend(request, pk):
-
-    #pytrends = TrendReq(hl='en-US', tz=360)    
-
+ 
     keywordName = Keyword.objects.filter(pk=pk).last()
 
     today = datetime.date.today()
@@ -53,15 +51,16 @@ def showTrend(request, pk):
             use_natural_foreign_keys=True
     )
 
-    #pytrends.build_payload(kw_list = Trend.objects.values('keyword__name'))
-    #related_keywords = pytrends.related_queries()
+    pytrends = TrendReq(hl='en-US', tz=360)   
+    pytrends.build_payload(kw_list = Trend.objects.values('keyword__name'))
+    related_keywords = pytrends.related_queries()
 
     context = {
     "keywordName": keywordName,
     "props": {
             "trends": trends,
-            #"today": today,
-            #"related_keywords": related_keywords,
+            "today": today,
+            "related_keywords": related_keywords,
         },
     #"related_keywords": related_keywords,
 

@@ -2,7 +2,7 @@
 {% load render_bundle from webpack_loader %}
 
 {% block content %}
-	<h1> {{ keywordName|title }}: Trend Over Time</h1>
+	<h1> {{ keywordName|title }}: Trend Over Time {{ today }}</h1>
   <div id="react"></div>
 	<script>
 		window.props = {{ props|safe }}

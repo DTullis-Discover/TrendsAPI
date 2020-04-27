@@ -13,7 +13,7 @@
 svg {
   overflow:visible;
   max-Width:100%;
-  border: solid;
+  border: hidden;
 }
 
 /*****************************************************************************/

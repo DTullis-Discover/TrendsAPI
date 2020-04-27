@@ -91,6 +91,13 @@ function TrendChart() {
       .domain([0, data.length - 1])
       .range([0, 300]);
 
+
+    const xAxis = axisBottom(xScale);
+      svg
+        .select(".x-axis").call(xAxis)
+        .style("transform", "translateY(175px)")
+        .call(xAxis);
+
     //y size of svg
     const yScale = scaleLinear()
       .domain([0, 110])

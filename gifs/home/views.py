@@ -41,18 +41,20 @@ It also returns keyword title for H1 in html template.
 '''
 def showTrend(request, pk):
 
+    #pytrends = TrendReq(hl='en-US', tz=360)    
+
     keywordName = Keyword.objects.filter(pk=pk).last()
 
     today = datetime.date.today()
+
     trends = serializers.serialize(
             "json", 
             Trend.objects.filter(keyword__pk=pk), 
             use_natural_foreign_keys=True
     )
 
-    pytrends = TrendReq(hl='en-US', tz=360)
-    pytrends.build_payload(kw_list = [keywordName])
-    related_keywords = pytrends.related_queries()
+    #pytrends.build_payload(kw_list = Trend.objects.values('keyword__name'))
+    #related_keywords = pytrends.related_queries()
 
     context = {
     "keywordName": keywordName,
@@ -61,7 +63,7 @@ def showTrend(request, pk):
             #"today": today,
             #"related_keywords": related_keywords,
         },
-    "related_keywords": related_keywords,
+    #"related_keywords": related_keywords,
 
     }
 

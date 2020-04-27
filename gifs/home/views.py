@@ -2,6 +2,7 @@ from django.shortcuts import render
 from pytrends.request import TrendReq
 import pandas as pd
 import json, time, re
+import datetime
 from gifs.home.models import Keyword, Trend
 from django.core import serializers
 from django.views.generic import ListView
@@ -42,6 +43,7 @@ def showTrend(request, pk):
 
     keywordName = Keyword.objects.filter(pk=pk).last()
 
+    today = datetime.date.today()
     trends = serializers.serialize(
             "json", 
             Trend.objects.filter(keyword__pk=pk), 
@@ -49,14 +51,18 @@ def showTrend(request, pk):
     )
 
     pytrends = TrendReq(hl='en-US', tz=360)
-    pytrends.build_payload(kw_list = ["keyword__name"])
+    pytrends.build_payload(kw_list = [keywordName])
     related_keywords = pytrends.related_queries()
 
     context = {
     "keywordName": keywordName,
     "props": {
             "trends": trends,
-        }
+            #"today": today,
+            #"related_keywords": related_keywords,
+        },
+    "related_keywords": related_keywords,
+
     }
 
     return render(request, "pages/detail.html", context)

@@ -3,13 +3,13 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1>Currently Trending</h1>
+      <h1>10 Trendiest Keyowrds</h1>
     </div>
   </div>
   <div class="row">
     <div class="col">
 			<ol class="keyword-list">
-        {% for keyword in keywords %}
+        {% for keyword in keywords|slice:"10"%}
         <li>
           <a href="/list/{{ keyword.pk }}/">{{ keyword.name }}</a>
         </li>
@@ -17,4 +17,13 @@
 			</ol>
     </div>
   </div>
+  </div>
+  <h2>
+    All Keywords
+  </h2>
+  <p>
+  {%for keyword in keywords %}
+  <a href="/list/{{ keyword.pk }}/">{{ keyword.name }}, </a>
+  {%endfor%}
+  </p>
 {% endblock content %}
